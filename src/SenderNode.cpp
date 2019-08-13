@@ -23,7 +23,7 @@ int main(int argc, char ** argv)
 	nhPrivate.param("receiver_address", receiverAddress, std::string{"127.0.0.1"});
 	nhPrivate.param("receiver_port", receiverPort, 10000);
 	nhPrivate.param("sender_port", senderPort, 10001);
-	nhPrivate.param("sender_interval", senderPort, 50);
+	nhPrivate.param("sender_interval", sendIntervalSeconds, 0.05);
 
 	auto sendInterval = remoteControl::double2duration(sendIntervalSeconds);
 
