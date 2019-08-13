@@ -24,11 +24,13 @@ public:
 		asionet::Context & context,
 		const std::string & receiverAddress,
 		std::uint16_t receiverPort,
-		std::uint16_t senderPort)
+		std::uint16_t senderPort,
+		asionet::time::Duration sendInterval)
 		: receiver(context, senderPort)
 		, sender(context)
 		, timer(context)
 		, receiverEndpoint(boost::asio::ip::address::from_string(receiverAddress), receiverPort)
+		, sendInterval(sendInterval)
 	{}
 
 	void setControlValue(int controlType, double controlValue);
@@ -36,11 +38,10 @@ public:
 	void run();
 
 private:
-	static const asionet::time::Duration sendInterval;
-
 	asionet::DatagramReceiver<ResponseMessage> receiver;
 	asionet::DatagramSender<ControlMessage> sender;
 	asionet::Timer timer;
+	asionet::time::Duration sendInterval;
 	int id = 0;
 	asionet::utils::Monitor<std::unordered_map<int, double>> controlValues;
 	asionet::DatagramReceiver<ResponseMessage>::Endpoint receiverEndpoint;

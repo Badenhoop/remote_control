@@ -6,6 +6,7 @@
 #include "std_msgs/Float64.h"
 #include <asionet/Worker.h>
 #include "../include/Sender.h"
+#include "../include/Utils.h"
 
 static constexpr int MOTOR_CONTROL_TYPE = 1;
 static constexpr int SERVO_CONTROL_TYPE = 2;
@@ -18,13 +19,17 @@ int main(int argc, char ** argv)
 	std::string receiverAddress;
 	int receiverPort;
 	int senderPort;
+	double sendIntervalSeconds;
 	nhPrivate.param("receiver_address", receiverAddress, std::string{"127.0.0.1"});
 	nhPrivate.param("receiver_port", receiverPort, 10000);
 	nhPrivate.param("sender_port", senderPort, 10001);
+	nhPrivate.param("sender_interval", senderPort, 50);
+
+	auto sendInterval = remoteControl::double2duration(sendIntervalSeconds);
 
 	asionet::Context context;
 	asionet::Worker worker{context};
-	auto sender = std::make_shared<remoteControl::Sender>(context, receiverAddress, receiverPort, senderPort);
+	auto sender = std::make_shared<remoteControl::Sender>(context, receiverAddress, receiverPort, senderPort, sendInterval);
 
 	ros::NodeHandle nhPublic;
 	ros::Subscriber motorSubscriber = nhPublic.subscribe<std_msgs::Float64>(

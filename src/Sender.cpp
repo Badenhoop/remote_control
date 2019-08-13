@@ -8,8 +8,6 @@
 namespace remoteControl
 {
 
-const asionet::time::Duration Sender::sendInterval = std::chrono::milliseconds(50);
-
 void Sender::run()
 {
 	send();

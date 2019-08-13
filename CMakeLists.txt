@@ -22,6 +22,7 @@ set(SOURCE_FILES
         include/Message.h
         include/Receiver.h
         include/Sender.h
+        include/Utils.h
         src/Receiver.cpp
         src/Sender.cpp)
 
