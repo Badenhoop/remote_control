@@ -57,7 +57,7 @@ def create_joystick():
     return joystick
 
 def main():
-    rospy.init_node('remote_control_gui')
+    rospy.init_node('remote_control_gui', log_level=rospy.INFO)
     motor_pub = rospy.Publisher('motor', Float64, queue_size=10)
     servo_pub = rospy.Publisher('servo', Float64, queue_size=10)
 
@@ -84,9 +84,8 @@ def main():
     buttonsSurface = buttonsSurface.convert()
     buttonsSurface.fill(BACKGROUND_COLOR)
 
-    speed_modes_forward = [0.2, 0.3, 0.4]
-    speed_modes_backward = [-0.2, -0.3, -0.4]
-    curr_speed_mode = 0
+    speed_modes = [0.2, 0.3, 0.4]
+    speed = 0.2
     zero_speed = 0
     max_angle = 1.0
     zero_angle = 0
@@ -94,13 +93,13 @@ def main():
     forwards = Button(
         pygame.Rect(1 * (BUTTON_WIDTH + PADDING), 0 * (BUTTON_HEIGHT + PADDING), BUTTON_WIDTH, BUTTON_HEIGHT),
         "FORWARDS",
-        onPressed=lambda: motor_pub.publish(speed_modes_forward[curr_speed_mode]),
+        onPressed=lambda: motor_pub.publish(speed),
         onReleased=lambda: motor_pub.publish(zero_speed))
 
     backwards = Button(
         pygame.Rect(1 * (BUTTON_WIDTH + PADDING), 1 * (BUTTON_HEIGHT + PADDING), BUTTON_WIDTH, BUTTON_HEIGHT),
         "BACKWARDS",
-        onPressed=lambda: motor_pub.publish(speed_modes_backward[curr_speed_mode]),
+        onPressed=lambda: motor_pub.publish(-speed),
         onReleased=lambda: motor_pub.publish(zero_speed))
 
     left = Button(
@@ -138,11 +137,16 @@ def main():
                 elif event.key == K_RIGHT:
                     right.press()
                 elif event.key == K_1:
-                    curr_speed_mode = 0
+                    speed = speed_modes[0]
                 elif event.key == K_2:
-                    curr_speed_mode = 1
+                    speed = speed_modes[1]
                 elif event.key == K_3:
-                    curr_speed_mode = 2
+                    speed = speed_modes[2]
+                elif event.key == K_PLUS:
+                    speed += 0.005
+                elif event.key == K_MINUS:
+                    speed -= 0.005
+                print("speed: {:.2}".format(speed))
             elif event.type == KEYUP:
                 if event.key == K_UP:
                     forwards.release()

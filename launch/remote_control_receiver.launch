@@ -1,6 +1,6 @@
 <launch>
     <group ns="remote_control_receiver">
-        <node pkg="remote_control" type="receiver_node" name="receiver">
+        <node pkg="remote_control" type="receiver_node" name="receiver" output="screen">
             <rosparam file="$(find remote_control)/config/remote_control.yaml" command="load" />
         </node>
     </group>
