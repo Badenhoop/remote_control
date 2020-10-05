@@ -3,7 +3,7 @@
 //
 
 #include <iostream>
-#include "../include/Sender.h"
+#include "remote_control/Sender.h"
 
 namespace remoteControl
 {

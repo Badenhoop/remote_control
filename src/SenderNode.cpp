@@ -5,8 +5,8 @@
 #include "ros/ros.h"
 #include "std_msgs/Float64.h"
 #include <asionet/Worker.h>
-#include "../include/Sender.h"
-#include "../include/Utils.h"
+#include "remote_control/Sender.h"
+#include "remote_control/Utils.h"
 
 static constexpr int MOTOR_CONTROL_TYPE = 1;
 static constexpr int SERVO_CONTROL_TYPE = 2;
