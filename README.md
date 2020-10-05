@@ -2,7 +2,13 @@
 
 ## Installation
 
-This package requires [asionet](https://github.com/Badenhoop/asionet) to be installed for networking.
+This package uses [asionet](https://github.com/Badenhoop/asionet) and Boost 1.66 which are both included in the vendor directory.
+Since Boost doesn't use CMake, you have to compile it manually.
+Assuming your working directory is the root directory of this repository, please run the following commands to compile Boost from source:
+
+    $ cd vendor/boost_1_66_0
+    $ ./bootstrap.sh
+    $ ./b2 
 
 ## Usage
 
