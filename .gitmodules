@@ -1,0 +1,3 @@
+[submodule "vendor/asionet"]
+	path = vendor/asionet
+	url = https://github.com/Badenhoop/asionet
