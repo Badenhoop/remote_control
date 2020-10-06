@@ -11,16 +11,10 @@ find_package(catkin REQUIRED COMPONENTS
   std_msgs
 )
 
-add_subdirectory(vendor/asionet)
-
 set(Boost_NO_SYSTEM_PATHS TRUE)
-if (Boost_NO_SYSTEM_PATHS)
-    set(BOOST_ROOT "${CMAKE_CURRENT_SOURCE_DIR}/vendor/boost_1_66_0")
-    set(BOOST_INCLUDE_DIRS "${BOOST_ROOT}/include")
-    set(BOOST_LIBRARY_DIRS "${BOOST_ROOT}/lib")
-endif (Boost_NO_SYSTEM_PATHS)
-find_package(Boost 1.66.0 EXACT REQUIRED COMPONENTS system)
-find_package(Threads)
+set(BOOST_ROOT "${CMAKE_CURRENT_SOURCE_DIR}/vendor/boost_1_66_0")
+add_subdirectory(vendor/asionet)
+find_package(asionet PATHS ${PROJECT_BINARY_DIR}/vendor/asionet)
 
 set(SOURCE_FILES
         include/remote_control/json.hpp
@@ -46,15 +40,13 @@ catkin_package(
 
 include_directories(
   include
-  vendor/asionet/include
-  ${Boost_INCLUDE_DIRS}
+  ${asionet_INCLUDE_DIRS}
   ${catkin_INCLUDE_DIRS}
 )
 
 set(LIBRARIES
         ${catkin_LIBRARIES}
         ${asionet_LIBRARIES}
-        ${Boost_LIBRARIES}
         ${CMAKE_THREAD_LIBS_INIT})
 
 add_executable(sender_node src/SenderNode.cpp ${SOURCE_FILES})
